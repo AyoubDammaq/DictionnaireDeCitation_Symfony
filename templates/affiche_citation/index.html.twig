@@ -1,0 +1,93 @@
+{# templates/affiche_citation/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+    <style>
+        /* Add your custom styles here */
+        body {
+            padding-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #dee2e6;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+
+        td {
+            background-color: #f8f9fa;
+        }
+
+        .no-results {
+            font-style: italic;
+        }
+
+        .back-to-home {
+            margin-top: 20px;
+            display: block;
+        }
+        .btn-success{
+            margin-top: 20px;
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-4">Résultats</h1>
+
+        {# Display search parameters #}
+        <p>Recherche : {{ searchKeyword }}</p>
+        <p>Auteur sélectionné : {{ selectedAuthor }}</p>
+        <p>Siècle sélectionné : {{ selectedCentury }}</p>
+        <p>Tri par : {{ sortOrder }}</p>
+
+        {# Display search results #}
+        {% if citations is empty %}
+            <p class="no-results">Aucune citation trouvée.</p>
+        {% else %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Citation</th>
+                        <th>Auteur</th>
+                        <th>Siècle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for citation in citations %}
+                        <tr>
+                            <td>{{ citation.text }}</td>
+                            <td>{{ citation.auteur.nom ~ ' ' ~ citation.auteur.prenom }}</td>
+                            <td>{{ citation.auteur.siecle is not null ? citation.auteur.siecle ~ 'e siècle' : 'Non spécifié' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {# Link to the homepage #}
+        <a href="{{ path('accueil') }}" class="btn btn-primary back-to-home">Retour à l'accueil</a>
+        <a href="{{ path('saisie_citation') }}" class="btn btn-success">Ajouter une citation</a>
+    </div>
+{% endblock %}

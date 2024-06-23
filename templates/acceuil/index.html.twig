@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Bienvenue au Dictionnaire de Citations</h1>
+
+        {# Affichage de la citation du jour #}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 class="card-title">Citation du jour :</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ citationDuJour.text }}</p>
+            </div>
+        </div>
+
+        {# Formulaire de recherche #}
+        <form action="{{ path('affiche_citation') }}" method="GET" class="mb-4">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="search">Mot-clé :</label>
+                    <input type="text" name="search" id="search" class="form-control">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="author">Auteur :</label>
+                    <select name="author" id="author" class="form-control">
+                        <option value="">Tous les auteurs</option>
+                        {% for author in authors %}
+                            <option value="{{ author.nom }}">{{ author.nom }} {{ author.prenom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label for="siecle">Siècle :</label>
+                    <select name="siecle" id="siecle" class="form-control">
+                        <option value="">Tous les siècles</option>
+                        {% for i in 16..21 %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label class="d-block">Tri :</label>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="sort" value="author" id="sortAuthor" class="form-check-input" checked>
+                        <label for="sortAuthor" class="form-check-label">Par Auteur</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="sort" value="siecle" id="sortSiecle" class="form-check-input">
+                        <label for="sortSiecle" class="form-check-label">Par Siècle</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
+            </div>
+        </form>
+
+        {# Lien vers la page d'insertion #}
+        <a href="{{ path('saisie_citation') }}" class="btn btn-success">Ajouter une citation</a>
+    </div>
+{% endblock %}

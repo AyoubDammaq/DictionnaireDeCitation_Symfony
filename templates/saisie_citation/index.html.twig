@@ -1,0 +1,93 @@
+{# templates/saisie_citation/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Saisie de Citation{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+    <style>
+        /* Add your custom styles here */
+        body {
+            padding-top: 20px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #343a40;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #23272b;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-4">Saisie de Citation</h1>
+
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+
+        <form action="{{ path('saisie_citation') }}" method="POST">
+            <label for="nom">Nom de l'auteur :</label>
+            <input type="text" name="nom" required>
+
+            <label for="prenom">Prénom de l'auteur :</label>
+            <input type="text" name="prenom" required>
+
+            <label for="siecle">Siècle :</label>
+            <select name="siecle" id="siecle" required>
+                <option value="">Tous les siècles</option>
+                {% for i in 16..21 %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="texte">Texte de la citation :</label>
+            <textarea name="texte" required></textarea>
+
+            <input type="submit" value="Ajouter">
+        </form>
+
+        {# Link to the homepage #}
+        <a href="{{ path('accueil') }}" class="btn btn-secondary">Retour à l'accueil</a>
+    </div>
+{% endblock %}
